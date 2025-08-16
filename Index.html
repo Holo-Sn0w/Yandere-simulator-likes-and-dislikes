@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Yandere Simulator – Interest Matcher</title>
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 text-slate-900">
+  <div class="max-w-5xl mx-auto p-4 md:p-8 space-y-6">
+
+    <!-- Header and View Toggle Buttons -->
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">Yandere Simulator – Interest Matcher</h1>
+        <p class="text-sm text-slate-600 mt-1">
+          Search, group, and compare students by shared likes and dislikes. Click “Find similar” to see overlap and conflicts.
+        </p>
+      </div>
+      <div class="flex gap-2">
+        <button id="btn-students" class="px-3 py-2 rounded-2xl text-sm shadow bg-slate-900 text-white">Students View</button>
+        <button id="btn-interests" class="px-3 py-2 rounded-2xl text-sm shadow bg-white text-slate-900 border">Interests View</button>
+      </div>
+    </header>
+
+    <!-- Filters Section -->
+    <section class="bg-white/70 backdrop-blur shadow-sm rounded-2xl p-4 border space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold">Filters</h2>
+        <button id="btn-clear" class="px-3 py-2 rounded-xl text-sm bg-white border hover:bg-slate-50">Clear</button>
+      </div>
+      <div class="grid md:grid-cols-2 gap-3">
+        <label class="flex items-center gap-2 bg-white rounded-xl border px-3 py-2">
+          <span class="text-xs uppercase tracking-wide text-slate-500">Search</span>
+          <input id="filter-search" placeholder="Name or club…" class="flex-1 text-sm outline-none" />
+        </label>
+        <label class="flex items-center gap-2 bg-white rounded-xl border px-3 py-2">
+          <span class="text-xs uppercase tracking-wide text-slate-500">Interest</span>
+          <input id="filter-interest" list="all-interests" placeholder="Pick an interest…" class="flex-1 text-sm outline-none" />
+          <datalist id="all-interests"></datalist>
+        </label>
+      </div>
+    </section>
+
+    <!-- Main UI Container -->
+    <div id="view-container"></div>
+
+    <!-- Footer -->
+    <footer class="pt-2 pb-8 text-center text-xs text-slate-500">
+      Tip: keep interest names consistent (e.g., “Cats” vs “cats”). Use the Interest filter to quickly see who matches.
+    </footer>
+
+  </div>
+
+  <script>
+    // ---------------------- ALL TOPICS ----------------------
+    const ALL_TOPICS = [
+      "Cooking", "Drama", "Occult", "Art", "Music", "Martial Arts",
+      "Photography", "Science", "Sports", "Gardening", "Videogames",
+      "Anime", "Cosplay", "Memes-Jokes", "Cats", "Justice", "Violence",
+      "Reading", "Gossip", "Socializing", "Solitude", "School",
+      "Family", "Nature", "Money"
+    ];
+
+    // ---------------------- Sample Students ----------------------
+    const SEED_STUDENTS = [
+      {
+        id: "kokona",
+        name: "Kokona Haruka",
+        club: "Cooking Club",
+        likes: ["Cooking", "Reading", "Drama", "Socializing", "Family"],
+        dislikes: ["Violence", "Occult", "Gossip", "Sports", "Money"],
+      },
+      {
+        id: "oka",
+        name: "Oka Ruto",
+        club: "Occult Club",
+        likes: ["Occult", "Violence", "Solitude", "Nature", "Justice"],
+        dislikes: ["Family", "Cosplay", "Money", "Gossip", "Sports"],
+      }
+    ];
+
+    // Helpers
+    const norm = s => s.toLowerCase();
+    const uniq = arr => Array.from(new Set(arr));
+    const intersect = (a, b) => a.filter(x => b.includes(x));
+
+    function buildInterestIndex(students) {
+      const likeMap = new Map(), dislikeMap = new Map();
+      students.forEach(s => {
+        s.likes.forEach(l => {
+          const key = norm(l);
+          if (!likeMap.has(key)) likeMap.set(key, { label: l, students: [] });
+          likeMap.get(key).students.push(s);
+        });
+        s.dislikes.forEach(d => {
+          const key = norm(d);
+          if (!dislikeMap.has(key)) dislikeMap.set(key, { label: d, students: [] });
+          dislikeMap.get(key).students.push(s);
+        });
+      });
+      const allKeys = uniq([...likeMap.keys(), ...dislikeMap.keys()]);
+      return allKeys.map(k => ({
+        key: k,
+        label: likeMap.get(k)?.label || dislikeMap.get(k)?.label || k,
+        likes: likeMap.get(k)?.students || [],
+        dislikes: dislikeMap.get(k)?.students || []
+      })).sort((a, b) => a.label.localeCompare(b.label));
+    }
+
+    function similarity(a, b) {
+      const aL = a.likes.map(norm), aD = a.dislikes.map(norm);
+      const bL = b.likes.map(norm), bD = b.dislikes.map(norm);
+      const likeOverlap = intersect(aL, bL);
+      const dislikeOverlap = intersect(aD, bD);
+      const conflicts = uniq([...intersect(aL, bD), ...intersect(aD, bL)]);
+      const score = likeOverlap.length + dislikeOverlap.length - conflicts.length;
+      return { score, likeOverlap, dislikeOverlap, conflicts };
+    }
+
+    // State
+    let view = "students", query = "", selectedInterest = "", selectedStudentId = null;
+
+    const interestIndex = buildInterestIndex(SEED_STUDENTS);
+
+    // Populate datalist with ALL_TOPICS
+    const datalist = document.getElementById("all-interests");
+    ALL_TOPICS.forEach(topic => datalist.appendChild(new Option(topic, topic)));
+
+    // DOM Elements
+    const btnStudents = document.getElementById("btn-students"),
+          btnInterests = document.getElementById("btn-interests"),
+          btnClear = document.getElementById("btn-clear"),
+          inputSearch = document.getElementById("filter-search"),
+          inputInterest = document.getElementById("filter-interest"),
+          viewContainer = document.getElementById("view-container");
+
+    // Event Handlers
+    btnStudents.onclick = () => { view = "students"; render(); };
+    btnInterests.onclick = () => { view = "interests"; render(); };
+    btnClear.onclick = () => {
+      view = "students";
+      query = "";
+      selectedInterest = "";
+      selectedStudentId = null;
+      inputSearch.value = "";
+      inputInterest.value = "";
+      render();
+    };
+    inputSearch.oninput = e => { query = e.target.value; render(); };
+    inputInterest.oninput = e => { selectedInterest = e.target.value; render(); };
+
+    // Render Logic
+    function render() {
+      btnStudents.className = view === "students"
+        ? "px-3 py-2 rounded-2xl text-sm shadow bg-slate-900 text-white"
+        : "px-3 py-2 rounded-2xl text-sm shadow bg-white text-slate-900 border";
+      btnInterests.className = view === "interests"
+        ? "px-3 py-2 rounded-2xl text-sm shadow bg-slate-900 text-white"
+        : "px-3 py-2 rounded-2xl text-sm shadow bg-white text-slate-900 border";
+
+      view === "students" ? renderStudentsView() : renderInterestsView();
+    }
+
+    function renderStudentsView() {
+      const filtered = SEED_STUDENTS.filter(s => {
+        const q = norm(query);
+        const interest = norm(selectedInterest);
+        return (!q || norm(s.name).includes(q) || norm(s.club).includes(q)) &&
+               (!interest || s.likes.map(norm).includes(interest) || s.dislikes.map(norm).includes(interest));
+      }).sort((a,b) => a.name.localeCompare(b.name));
+
+      const selectedStudent = SEED_STUDENTS.find(s => s.id === selectedStudentId) || null;
+      const similar = selectedStudent
+        ? SEED_STUDENTS.filter(s => s.id !== selectedStudent.id)
+            .map(other => ({ other, sim: similarity(selectedStudent, other) }))
+            .sort((a, b) => b.sim.score - a.sim.score)
+        : [];
+
+      viewContainer.innerHTML = `
+        <div class="grid lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2">
+            <div class="bg-white/70 backdrop-blur shadow-sm rounded-2xl p-4 border mb-4">
+              <div class="flex items-center justify-between mb-2">
+                <h2 class="text-lg font-semibold">Students (${filtered.length})</h2>
+                <span class="text-xs text-slate-500">Click interest chips to filter</span>
+              </div>
+              <table class="min-w-full text-sm">
+                <thead><tr class="text-left text-slate-500">
+                  <th class="py-2 pr-2">Name</th><th class="py-2 pr-2">Club</th><th class="py-2 pr-2">Likes</th><th class="py-2 pr-2">Dislikes</th><th class="py-2 pr-2">Actions</th>
+                </tr></thead>
+                <tbody>
+                  ${filtered.map(s => `
+                    <tr class="align-top border-t">
+                      <td class="py-3 pr-2 font-medium">${s.name}</td>
+                      <td class="py-3 pr-2">${s.club}</td>
+                      <td class="py-3 pr-2"><div class="flex flex-wrap gap-2">
+                        ${s.likes.map(l => `<button onclick="setInterest('${l}')" title="Filter by like" class="px-2 py-1 rounded-2xl text-sm bg-green-100 text-green-800 hover:bg-green-200">${l}</button>`).join("")}
+                      </div></td>
+                      <td class="py-3 pr-2"><div class="flex flex-wrap gap-2">
+                        ${s.dislikes.map(d => `<button onclick="setInterest('${d}')" title="Filter by dislike" class="px-2 py-1 rounded-2xl text-sm bg-red-100 text-red-800 hover:bg-red-200">${d}</button>`).join("")}
+                      </div></td>
+                      <td class="py-3 pr-2"><button onclick="selectStudent('${s.id}')" class="px-3 py-1.5 rounded-xl text-xs font-medium border shadow-sm ${selectedStudentId === s.id ? 'bg-slate-900 text-white' : 'bg-white hover:bg-slate-50'}">Find similar</button></td>
+                    </tr>
+                  `).join("")}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="lg:col-span-1">
+            <div class="bg-white/70 backdrop-blur shadow-sm rounded-2xl p-4 border h-full">
+              <div class="flex items-center justify-between mb-2">
+                <h2 class="text-lg font-semibold">${selectedStudent ? `Similar to ${selectedStudent.name}` : "Similar students"}</h2>
+                ${selectedStudent ? `<button onclick="clearSelection()" class="px-3 py-2 rounded-xl text-sm bg-white border hover:bg-slate-50">Close</button>` : ""}
+              </div>
+              <div class="space-y-3">
+                ${!selectedStudent
+                  ? `<p class="text-sm text-slate-600">Pick a student to calculate similarity. We score +1 for shared likes/dislikes and –1 for conflicts.</p>`
+                  : similar.map(({ other, sim }) => `
+                    <div class="border rounded-xl p-3 bg-white">
+                      <div class="flex items-center justify-between">
+                        <div>
+                          <div class="font-medium">${other.name}</div>
+                          <div class="text-xs text-slate-500">${other.club}</div>
+                        </div>
+                        <div class="text-sm font-bold ${sim.score > 0 ? 'text-green-700' : sim.score < 0 ? 'text-amber-700' : 'text-slate-700'}">Score ${sim.score}</div>
+                      </div>
+                      <div class="mt-2 flex flex-wrap gap-2">
+                        ${sim.likeOverlap.map(t => `<span class="px-2 py-1 rounded-2xl text-xs bg-green-100 text-green-800">👍 ${t}</span>`).join("")}
+                        ${sim.dislikeOverlap.map(t => `<span class="px-2 py-1 rounded-2xl text-xs bg-red-100 text-red-800">👎 ${t}</span>`).join("")}
+                        ${sim.conflicts.map(t => `<span class="px-2 py-1 rounded-2xl text-xs bg-amber-100 text-amber-800">⚠️ ${t}</span>`).join("")}
+                      </div>
+                    </div>
+                  `).join("")}
+              </div>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function renderInterestsView() {
+      viewContainer.innerHTML = `
+        <div class="bg-white/70 backdrop-blur shadow-sm rounded-2xl p-4 border">
+          <h2 class="text-lg font-semibold mb-3">Interests</h2>
+          <div class="grid md:grid-cols-2 gap-6">
+            ${interestIndex.map(row => `
+              <div class="border rounded-2xl p-4 bg-white">
+                <div class="flex items-center justify-between mb-2">
+                  <h3 class="font-semibold">${row.label}</h3>
+                  <button onclick="setInterest('${row.label}')" class="text-xs px-2 py-1 rounded-xl border">Filter</button>
+                </div>
+                <div class="text-xs uppercase text-slate-500">Likes</div>
+                <div class="flex flex-wrap gap-2 mt-1">
+                  ${row.likes.length
+                    ? row.likes.map(s => `<button onclick="selectStudent('${s.id}')" class="px-2 py-1 rounded-2xl text-xs bg-green-100 text-green-800 hover:bg-green-200">${s.name}</button>`).join("")
+                    : `<span class="text-sm text-slate-500">—</span>`}
+                </div>
+                <div class="text-xs uppercase text-slate-500 mt-3">Dislikes</div>
+                <div class="flex flex-wrap gap-2 mt-1">
+                  ${row.dislikes.length
+                    ? row.dislikes.map(s => `<button onclick="selectStudent('${s.id}')" class="px-2 py-1 rounded-2xl text-xs bg-red-100 text-red-800 hover:bg-red-200">${s.name}</button>`).join("")
+                    : `<span class="text-sm text-slate-500">—</span>`}
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        </div>`;
+    }
+
+    // Window functions for UI interactions
+    window.setInterest = val => {
+      selectedInterest = val;
+      inputInterest.value = val;
+      selectedStudentId = null;
+      render();
+    };
+    window.selectStudent = id => {
+      selectedStudentId = id;
+      render();
+    };
+    window.clearSelection = () => {
+      selectedStudentId = null;
+      render();
+    };
+
+    // Initial render call
+    render();
+  </script>
+</body>
+</html>
