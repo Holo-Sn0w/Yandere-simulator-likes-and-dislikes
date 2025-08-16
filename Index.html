@@ -66,19 +66,204 @@
     // ---------------------- Sample Students ----------------------
     const SEED_STUDENTS = [
       {
-        id: "kokona",
-        name: "Kokona Haruka",
+        id: "taro",
+        name: "Taro Yamada",
+        club: " No Club",
+        likes: ["Justice", "Reading", "Solitude", "Family", "Nature"],
+        dislikes: ["Drama", "Occult", "Cats", "Violence", "Gossip"],
+      },
+      {
+        id: "sakyu",
+        name: "Sakyu Basu",
+        club: "Occult Club",
+        likes: ["Occult", "Cosplay", "Violence", "Socializing", "Family"],
+        dislikes: ["Science", "Videogames", "Anime", "Gossip", "Solitude"],
+      },
+      {
+        id: "inkyu",
+        name: "Inkyu Basu",
+        club: "Occult Club",
+        likes: ["Occult", "Violence", "Gossip", "Socializing", "Family"],
+        dislikes: ["Photography", "Science", "Videogames", "Anime", "Reading"],
+      },
+      {
+        id: "kuu",
+        name: "Kuu Dere",
+        club: "No Club",
+        likes: ["Videogames", "Anime", "Violence", "Reading", "Solitude"],
+        dislikes: ["Drama", "Music", "Martial Arts", "Memes-Jokes", "Socializing"],
+      },
+      {
+        id: "horuda",
+        name: "Horuda Puresu",
+        club: "No Club",
+        likes: ["Art", "Justice", "Violence", "Reading", "Solitude"],
+        dislikes: ["Memes-Jokes", "Gossip", "Socializing", "School", "Money"],
+      },
+      {
+        id: "kyuji",
+        name: "Kyuji Konagawa",
+        club: "No Club",
+        likes: ["Gardening", "Cats", "Justice", "Reading", "Solitude"],
+        dislikes: ["Drama", "Violence", "Gossip", "Socializing", "School"],
+      },
+      {
+        id: "otohiko",
+        name: "Otohiko Meichi",
+        club: "No Club",
+        likes: ["Cooking", "Cosplay", "Memes", "Reading", "Solitude"],
+        dislikes: ["Occult", "Martial Arts", "Sports", "Violence", "Gossip"]
+      },
+      {
+        id: "hazu",
+        name: "Hazu Kashibuchi",
+        club: "No Club",
+        likes: ["Cooking", "Gardening", "Cats", "Solitude", "Family"],
+        dislikes: ["Occult", "Martial Arts", "Sports", "Violence", "Money"]
+      },
+      {
+        id: "toga",
+        name: "Toga Tabara",
+        club: "No Club",
+        likes: ["Cats", "Justice", "Reading", "Solitude", "Family"],
+        dislikes: ["Cosplay", "Violence", "Gossip", "Socializing", "Money"]
+      },
+      {
+        id: "raibaru",
+        name: "Raibaru Fumetsu",
+        club: "No Club",
+        likes: ["Cooking", "Art", "Martial Arts", "Justice", "Nature"],
+        dislikes: ["Occult", "Video Games", "Violence", "Gossip", "Solitude"]
+      },
+      {
+        id: "osana",
+        name: "Osana Najimi",
+        club: "No Club",
+        likes: ["Cooking", "Music", "Sports", "Gardening", "Cats"],
+        dislikes: ["Drama","Occult", "Science", "Video Games", "Violence"]
+      },
+      {
+        id: "amai",
+        name: "Amai Odayaka",
         club: "Cooking Club",
-        likes: ["Cooking", "Reading", "Drama", "Socializing", "Family"],
-        dislikes: ["Violence", "Occult", "Gossip", "Sports", "Money"],
+        likes: ["Cooking", "Art", "Gardening", "Cats", "Family"],
+        dislikes: ["Occult", "Video Games", "Anime", "Violence", "Gossip"]
+      },
+      {
+        id: "kizana",
+        name: "Kizana Sunobu",
+        club: "Drama Club",
+        likes: ["Drama", "Art", "Gossip", "Socializing", "Money"],
+        dislikes: ["Sports", "Video Games", "Memes", "Violence", "Solitude"]
       },
       {
         id: "oka",
         name: "Oka Ruto",
         club: "Occult Club",
-        likes: ["Occult", "Violence", "Solitude", "Nature", "Justice"],
-        dislikes: ["Family", "Cosplay", "Money", "Gossip", "Sports"],
-      }
+        likes: ["Occult", "Martial Arts", "Cats", "Reading", "Solitude"],
+        dislikes: ["Sports", "Violence", "Gossip", "Socializing", "School"]
+      },
+      {
+        id: "asu",
+        name: "Asu Rito",
+        club: "Sports Club",
+        likes: ["Music", "Martial Arts", "Sports", "Socializing", "Nature"],
+        dislikes: ["Video Games", "Anime", "Violence", "Reading", "Solitude"]
+      },
+      {
+        id: "osoro",
+        name: "Osoro Shidesu",
+        club: "Delinquent",
+        likes: ["Cooking", "Music", "Martial Arts", "Cats", "Money"],
+        dislikes: ["Drama", "Violence", "Reading", "School", "Family"]
+      },
+      {
+        id: "hanako_",
+        name: "Hanako Yamada",
+        club: "No Club",
+        likes: ["Justice", "Reading", "Solitude", "Family", "Nature"],
+        dislikes: ["Drama", "Occult", "Cats", "Violence", "Gossip"]
+      },
+      {
+        id: "megami",
+        name: "Megami Saikou",
+        club: "Student Council",
+        likes: ["Science", "Justice", "School", "Family", "Money"],
+        dislikes: ["Occult", "Cosplay", "Memes", "Violence", "Gossip"]
+      },
+      {
+        id: "shoku_tsuburaya",
+        name: "Shoku Tsuburaya",
+        club: "Cooking Club",
+        likes: ["Cooking", "Gardening", "Cats", "Socializing", "Family"],
+        dislikes: ["Occult", "Video Games", "Memes", "Violence", "Gossip"]
+      },
+      {
+        id: "kenko_sukoyaka",
+        name: "Kenko Sukoyaka",
+        club: "Cooking Club",
+        likes: ["Cooking", "Gardening", "Memes", "Socializing", "Nature"],
+        dislikes: ["Occult", "Violence", "Reading", "Gossip", "Solitude"]
+      },
+      {
+        id: "seiyo_akanishi",
+        name: "Seiyo Akanishi",
+        club: "Cooking Club",
+        likes: ["Cooking", "Memes", "Justice", "Socializing", "Money"],
+        dislikes: ["Occult", "Anime", "Reading", "Solitude", "Nature"]
+      },
+      {
+        id: "ajia_ashitomi",
+        name: "Ajia Ashitomi",
+        club: "Cooking Club",
+        likes: ["Cooking", "Drama", "Art", "Martial Arts", "Gardening"],
+        dislikes: ["Photography", "Science", "Video Games", "Memes", "Money"]
+      },
+      {
+        id: "saki_miyu",
+        name: "Saki Miyu",
+        club: "Cooking Club",
+        likes: ["Cooking", "Drama", "Socializing", "Family", "Money"],
+        dislikes: ["Occult", "Video Games", "Violence", "Gossip", "Solitude"]
+      },
+      {
+        id: "tsuruzo",
+        name: "Tsuruzo Yamazaki",
+        club: "Drama Club",
+        likes: ["Drama", "Art", "Cats", "Gossip", "Money"],
+        dislikes: ["Sports", "Video Games", "Anime", "Memes", "Violence"]
+      },
+      {
+        id: "shozo",
+        name: "Shozo Kurosawa",
+        club: "Drama Club",
+        likes: ["Drama", "Music", "Video Games", "Anime", "Memes"],
+        dislikes: ["Cooking", "Occult", "Gardening", "School", "Nature"]
+      },
+      {
+        id: "riku",
+        name: "Riku Soma",
+        club: "Drama Club",
+        likes: ["Cooking", "Drama", "Cats", "Justice", "Socializing"],
+        dislikes: ["Photography", "Sports", "Video Games", "Gossip", "Money"]
+      },
+      {
+        id: "tokuko",
+        name: "Tokuko Kitagawa",
+        club: "Drama Club",
+        likes: ["Drama", "Cosplay", "Gossip", "Socializing", "Money"],
+        dislikes: ["Martial Arts", "Sports", "Video Games", "Anime", "Memes"]
+      },
+      {
+        id: "kokona",
+        name: "Kokona Haruka",
+        club: "Drama Club",
+        likes: ["Cooking", "Drama", "Justice", "Socializing", "Family"],
+        dislikes: ["Occult", "Video Games", "Violence", "Gossip", "Solitude"]
+      },
+      
+
+
     ];
 
     // Helpers
@@ -289,3 +474,4 @@
   </script>
 </body>
 </html>
+
