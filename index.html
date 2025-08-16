@@ -58,7 +58,7 @@
     const ALL_TOPICS = [
       "Cooking", "Drama", "Occult", "Art", "Music", "Martial Arts",
       "Photography", "Science", "Sports", "Gardening", "Videogames",
-      "Anime", "Cosplay", "Memes-Jokes", "Cats", "Justice", "Violence",
+      "Anime", "Cosplay", "Memes", "Cats", "Justice", "Violence",
       "Reading", "Gossip", "Socializing", "Solitude", "School",
       "Family", "Nature", "Money"
     ];
@@ -91,14 +91,14 @@
         name: "Kuu Dere",
         club: "No Club",
         likes: ["Videogames", "Anime", "Violence", "Reading", "Solitude"],
-        dislikes: ["Drama", "Music", "Martial Arts", "Memes-Jokes", "Socializing"],
+        dislikes: ["Drama", "Music", "Martial Arts", "Memes", "Socializing"],
       },
       {
         id: "horuda",
         name: "Horuda Puresu",
         club: "No Club",
         likes: ["Art", "Justice", "Violence", "Reading", "Solitude"],
-        dislikes: ["Memes-Jokes", "Gossip", "Socializing", "School", "Money"],
+        dislikes: ["Memes", "Gossip", "Socializing", "School", "Money"],
       },
       {
         id: "kyuji",
@@ -261,7 +261,223 @@
         likes: ["Cooking", "Drama", "Justice", "Socializing", "Family"],
         dislikes: ["Occult", "Video Games", "Violence", "Gossip", "Solitude"]
       },
+      {
+        id: "shin",
+        name: "Shin Higaku",
+        club: "Occult Club",
+        likes: ["Drama", "Occult", "Art", "Reading", "Solitude"],
+        dislikes: ["Martial Arts", "Sports", "Violence", "Gossip", "Socializing"]
+      },
+      {
+        id: "chojo",
+        name: "Chojo Tekina",
+        club: "Occult Club",
+        likes: ["Occult", "Art", "Music", "Reading", "Solitude"],
+        dislikes: ["Photography", "Sports", "Violence", "Gossip", "Socializing"]
+      },
+      {
+        id: "daku",
+        name: "Daku Atsu",
+        club: "Occult Club",
+        likes: ["Occult", "Justice", "Reading", "Solitude", "Family"],
+        dislikes: ["Martial Arts", "Sports", "Violence", "Gossip", "Socializing"]
+      },
+      {
+        id: "supana",
+        name: "Supana Churu",
+        club: "Occult Club",
+        likes: ["Occult", "Science", "Cats", "Reading", "Solitude"],
+        dislikes: ["Video Games", "Anime", "Memes", "Gossip", "Socializing"]
+      },
+      {
+        id: "kokuma",
+        name: "Kokuma Jutsu",
+        club: "Occult Club",
+        likes: ["Occult", "Justice", "Reading", "Solitude", "Nature"],
+        dislikes: ["Drama", "Photography", "Gossip", "Socializing", "Family"]
+      },
+      {
+        id: "gema",
+        name: "Gema Taku",
+        club: "Gaming Club",
+        likes: ["Video Games", "Anime", "Cosplay", "Memes", "Solitude"],
+        dislikes: ["Sports", "Reading", "Socializing", "Family", "Nature"]
+      },
+      {
+        id: "ryuto",
+        name: "Ryuto Ippongo",
+        club: "Gaming Club",
+        likes: ["Music", "Martial Arts", "Video Games", "Anime", "Cosplay"],
+        dislikes: ["Occult", "Photography", "Gardening", "Solitude", "School"]
+      },
+      {
+        id: "pippi",
+        name: "Pippi Osu",
+        club: "Gaming Club",
+        likes: ["Music", "Video Games", "Anime", "Cosplay", "Cats"],
+        dislikes: ["Occult", "Violence", "Gossip", "Solitude", "Money"]
+      },
+      {
+        id: "midori",
+        name: "Midori Gurin",
+        club: "Gaming Club",
+        likes: ["Video Games", "Anime", "Cosplay", "Memes", "Socializing"],
+        dislikes: ["Drama", "Violence", "Reading", "Gossip", "Solitude"]
+      },
+      {
+        id: "mai",
+        name: "Mai Waifu",
+        club: "Gaming Club",
+        likes: ["Video Games", "Anime", "Cosplay", "Memes", "Justice"],
+        dislikes: ["Drama", "Occult", "Sports", "Violence", "Gossip"]
+      },
+      {
+        id: "geiju_tsuka",
+        name: "Geiju Tsuka",
+        club: "Art Club",
+        likes: ["Art", "Anime", "Reading", "Solitude", "School"],
+        dislikes: ["Drama", "Science", "Memes", "Gossip", "Socializing"]
+      },
+      {
+        id: "borupen_saishiki",
+        name: "Borupen Saishiki",
+        club: "Art Club",
+        likes: ["Occult", "Art", "Violence", "Reading", "Solitude"],
+        dislikes: ["Music", "Sports", "Cosplay", "Memes", "Family"]
+      },
+      {
+        id: "enpitsu_byoga",
+        name: "Enpitsu Byoga",
+        club: "Art Club",
+        likes: ["Drama", "Art", "Photography", "Gossip", "Money"],
+        dislikes: ["Martial Arts", "Science", "Sports", "Memes", "School"]
+      },
+      {
+        id: "maka_tansei",
+        name: "Maka Tansei",
+        club: "Art Club",
+        likes: ["Occult", "Art", "Music", "Video Games", "Memes"],
+        dislikes: ["Martial Arts", "Sports", "Reading", "Gossip", "School"]
+      },
+      {
+        id: "efude_nurimono",
+        name: "Efude Nurimono",
+        club: "Art Club",
+        likes: ["Art", "Video Games", "Anime", "Cosplay", "Cats"],
+        dislikes: ["Drama", "Sports", "Gardening", "Gossip", "Nature"]
+      },
+      {
+        id: "miyuji_shan",
+        name: "Miyuji Shan",
+        club: "Light Music Club",
+        likes: ["Music", "Video Games", "Justice", "Socializing", "Solitude"],
+        dislikes: ["Cooking", "Gardening", "Violence", "Gossip", "Nature"]
+      },
+      {
+        id: "gita_yamahato",
+        name: "Gita Yamahato",
+        club: "Light Music Club",
+        likes: ["Music", "Anime", "Cats", "Gossip", "Family"],
+        dislikes: ["Drama", "Occult", "Martial Arts", "Science", "Solitude"]
+      },
+      {
+        id: "beshi_takamine",
+        name: "Beshi Takamine",
+        club: "Light Music Club",
+        likes: ["Music", "Photography", "Gardening", "Memes", "Nature"],
+        dislikes: ["Occult", "Science", "Video Games", "Reading", "School"]
+      },
+      {
+        id: "dora_tamamoto",
+        name: "Dora Tamamoto",
+        club: "Light Music Club",
+        likes: ["Music", "Video Games", "Memes", "Cats", "Socializing"],
+        dislikes: ["Violence", "Reading", "Gossip", "School", "Money"]
+      },
+      {
+        id: "kiba_kawaito",
+        name: "Kiba Kawaito",
+        club: "Light Music Club",
+        likes: ["Music", "Photography", "Science", "Anime", "Memes"],
+        dislikes: ["Martial Arts", "Sports", "Gardening", "Reading", "Nature"]
+      },
+      {
+        id: "budo",
+        name: "Budo Masuta",
+        club: "Martial Arts Club",
+        likes: ["Occult", "Martial Arts", "Sports", "Justice", "School"],
+        dislikes: ["Science", "Video Games", "Memes", "Violence", "Solitude"]
+      },
+      {
+        id: "sho",
+        name: "Sho Kunin",
+        club: "Martial Arts Club",
+        likes: ["Art", "Martial Arts", "Sports", "Justice", "Family"],
+        dislikes: ["Occult", "Memes", "Violence", "Gossip", "Solitude"]
+      },
+      {
+        id: "juku",
+        name: "Juku Ren",
+        club: "Martial Arts Club",
+        likes: ["Martial Arts", "Sports", "Justice", "Reading", "Solitude"],
+        dislikes: ["Drama", "Photography", "Violence", "Gossip", "Socializing"]
+      },
+      {
+        id: "mina",
+        name: "Mina Rai",
+        club: "Martial Arts Club",
+        likes: ["Occult", "Martial Arts", "Justice", "Socializing", "Nature"],
+        dislikes: ["Cooking", "Art", "Photography", "Violence", "Money"]
+      },
+      {
+        id: "shima",
+        name: "Shima Shiya",
+        club: "Martial Arts Club",
+        likes: ["Martial Arts", "Sports", "Anime", "Cats", "Justice"],
+        dislikes: ["Occult", "Music", "Photography", "Violence", "Gossip"]
+      },
+      {
+        id: "fureddo",
+        name: "Fureddo Jonzu",
+        club: "Photography Club",
+        likes: ["Occult", "Photography", "Video Games", "Anime", "Justice"],
+        dislikes: ["Drama", "Cosplay", "Violence", "Solitude", "Family"]
+      },
+      {
+        id: "rojasu",
+        name: "Rojasu Norubiru",
+        club: "Photography Club",
+        likes: ["Cooking", "Photography", "Anime", "Memes", "Justice"],
+        dislikes: ["Occult", "Science", "Violence", "Solitude", "School"]
+      },
+      {
+        id: "sukubi",
+        name: "Sukubi Dubidu",
+        club: "Photography Club",
+        likes: ["Cooking", "Photography", "Anime", "Memes", "Justice"],
+        dislikes: ["Occult", "Science", "Cats", "Solitude", "School"]
+      },
+      {
+        id: "dafuni",
+        name: "Dafuni Bureiku",
+        club: "Photography Club",
+        likes: ["Music", "Photography", "Anime", "Justice", "Socializing"],
+        dislikes: ["Science", "Memes", "Solitude", "School", "Family"]
+      },
+      {
+        id: "beruma",
+        name: "Beruma Dinkuri",
+        club: "Photography Club",
+        likes: ["Photography", "Science", "Justice", "Reading", "School"],
+        dislikes: ["Music", "Martial Arts", "Sports", "Violence", "Socializing"]
+      },
       
+
+
+
+      
+
+
 
 
     ];
@@ -474,4 +690,5 @@
   </script>
 </body>
 </html>
+
 
